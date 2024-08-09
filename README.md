@@ -13,7 +13,7 @@
 1. 克隆本仓库  
 2. 切换到本项目目录下  
 3. 重命名 `data.db.bak` 为 `data.db`
-4. 执行 `git submodule update` 来下载子模块
+4. 执行 `git submodule update` 来下载子模块  
 4. 执行 `npm i` 来安装依赖  
 5. 执行 `node main.js` 来启动项目  
 6. 服务器端口号为 `6789`
