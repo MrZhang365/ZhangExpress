@@ -1,0 +1,25 @@
+{
+  "name": "zhang-express",
+  "version": "1.0.0",
+  "description": "小张物流管理系统",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MrZhang365/ZhangExpress.git"
+  },
+  "author": "MrZhang365",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/MrZhang365/ZhangExpress/issues"
+  },
+  "homepage": "https://github.com/MrZhang365/ZhangExpress#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mdui": "^2.1.2",
+    "speakeasy": "^2.0.0",
+    "sqlite3": "^5.1.7"
+  }
+}

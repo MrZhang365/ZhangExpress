@@ -1,0 +1,3 @@
+[submodule "static/qrcodejs"]
+	path = static/qrcodejs
+	url = https://github.com/davidshimjs/qrcodejs.git

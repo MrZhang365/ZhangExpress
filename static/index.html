@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+        <meta name="renderer" content="webkit">
+
+        <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css">
+        <title>小张物流管理系统 | ZhangExpress</title>
+    </head>
+    <body class="mdui-appbar-with-toolbar-larger mdui-appbar-with-toolbar mdui-theme-layout-dark mdui-theme-primary-green mdui-theme-accent-teal">
+        <div class="mdui-appbar mdui-appbar-fixed">
+            <div class="mdui-toolbar mdui-color-theme">
+                <a mdui-menu="{target: '#menu'}" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '菜单', delay: 200}">
+                    <i class="mdui-icon material-icons">menu</i>
+                </a>
+                <ul class="mdui-menu" id="menu">
+                    <li class="mdui-menu-item">
+                        <a href="javascript:;" class="mdui-ripple" mdui-dialog="{target: '#404'}">
+                            <i class="mdui-menu-item-icon mdui-icon material-icons">&#xe869;</i>404测试
+                        </a>
+                        <a href="javascript:;" class="mdui-ripple" mdui-dialog="{target: '#you-must-survive'}">
+                            <i class="mdui-menu-item-icon mdui-icon material-icons">&#xe869;</i>不要自杀测试
+                        </a>
+                    </li>
+                </ul>
+                <a href="javascript:;" class="mdui-typo-title">小张物流管理系统</a>
+                <div class="mdui-toolbar-spacer"></div>
+                <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '后台管理', delay: 200}">
+                    <i class="mdui-icon material-icons">&#xe869;</i>
+                </a>
+            </div>
+        </div>
+        <div id="tabs" class="mdui-tab mdui-color-theme mdui-tab-scrollable mdui-tab-full-width" mdui-tab onclick="hideInfo()">
+            <a href="#search-by-zec" class="mdui-ripple">
+                <i class="mdui-icon material-icons">&#xe8b6;</i>
+                <label>查物流（小张物流码）</label>
+            </a>
+            <a href="#search-by-ecc" class="mdui-ripple">
+                <i class="mdui-icon material-icons">&#xe1b7;</i>
+                <label>查物流（物流公司码）</label>
+            </a>
+            <a href="#receive" class="mdui-ripple" id="receive-tab">
+                <i class="mdui-icon material-icons">&#xe877;</i>
+                <label>我要签收</label>
+            </a>
+            <a href="#my-expresses" class="mdui-ripple">
+                <i class="mdui-icon material-icons">&#xe156;</i>
+                <label>我的物流</label>
+            </a>
+            <a href="#send-express" class="mdui-ripple">
+                <i class="mdui-icon material-icons">&#xe163;</i>
+                <label>发物流</label>
+            </a>
+            <a href="#make-qrcode" class="mdui-ripple">
+                <i class="mdui-icon material-icons">&#xe3f4;</i>
+                <label>二维码生成</label>
+            </a>
+        </div>
+        <div id="search-by-zec" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">查物流（小张物流码）</h1>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe88f;</i>
+                        <label class="mdui-textfield-label">小张物流码</label>
+                        <input type="text" id="zec" class="mdui-textfield-input"></input>
+                    </div>
+                    <button id="query-zec" class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="queryByZec()">查询</button>
+                </div>
+            </div>
+        </div>
+        <div id="search-by-ecc" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">查物流（物流公司码）</h1>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe88f;</i>
+                        <label class="mdui-textfield-label">物流公司码</label>
+                        <input type="text" id="ecc" class="mdui-textfield-input"></input>
+                    </div>
+                    <button id="query-ecc" class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="queryByEcc()">查询</button>
+                </div>
+            </div>
+        </div>
+        <div id="receive" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">我要签收</h1>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe88f;</i>
+                        <label class="mdui-textfield-label">小张物流码</label>
+                        <input type="text" id="zec-recv" class="mdui-textfield-input"></input>
+                    </div>
+                    <button id="recv" class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="receive()">签收</button>
+                </div>
+            </div>
+        </div>
+        <div id="my-expresses" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">我的物流</h1>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe7ff;</i>
+                        <label class="mdui-textfield-label">姓名</label>
+                        <input type="text" id="name" class="mdui-textfield-input"></input>
+                    </div>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe899;</i>
+                        <label class="mdui-textfield-label">密码（可选）</label>
+                        <input type="password" id="password" class="mdui-textfield-input"></input>
+                    </div>
+                    <button id="query-rpc" class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="myExpresses()">查询</button>
+                </div>
+            </div>
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-table-fluid">
+                    <table class="mdui-table mdui-table-hoverable" data-style="table-layout: auto;">
+                        <thead>
+                            <tr>
+                                <th>小张物流码</th>
+                                <th>物流公司码</th>
+                                <th>物流状态</th>
+                                <th>状态标记人</th>
+                                <th>官方查询网站</th>
+                                <th>物流描述</th>
+                                <th>发件人</th>
+                                <th>始发地</th>
+                                <th>发出时间</th>
+                                <th>收件人</th>
+                                <th>终到地</th>
+                                <th>送达时间</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expresses-table">
+                            <!--交给脚本-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="send-express" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">发物流</h1>
+                    <form onsubmit="sendExpress(this); return false;" action="/api/send-express" method="post" target="hidden-iframe" enctype="application/json">
+                        <iframe class="mdui-hidden" id="hidden-iframe" name="hidden-iframe"></iframe>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">&#xe7ff;</i>
+                            <label class="mdui-textfield-label">发件人</label>
+                            <input name="sender" class="mdui-textfield-input" type="text" required />
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">&#xe899;</i>
+                            <label class="mdui-textfield-label">密码</label>
+                            <input name="password" class="mdui-textfield-input" type="password" required />
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">&#xe0af;</i>
+                            <label class="mdui-textfield-label">物流公司码（非必填）</label>
+                            <input name="ecc" class="mdui-textfield-input" type="text" />
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">&#xe90f;</i>
+                            <label class="mdui-textfield-label">物流描述</label>
+                            <input name="describe" class="mdui-textfield-input" type="text" required />
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">&#xe157;</i>
+                            <label class="mdui-textfield-label">官方查询网站（非必填）</label>
+                            <input name="website" class="mdui-textfield-input" type="url" />
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">&#xe905;</i>
+                            <label class="mdui-textfield-label">始发地</label>
+                            <input name="sendLocation" class="mdui-textfield-input" type="text" required />
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">&#xe8a3;</i>
+                            <label class="mdui-textfield-label">收件人</label>
+                            <input name="receiver" class="mdui-textfield-input" type="text" required />
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">&#xe904;</i>
+                            <label class="mdui-textfield-label">终到地</label>
+                            <input name="targetLocation" class="mdui-textfield-input" type="text" required />
+                        </div>
+                        <input type="submit" value="提交" class="mdui-btn mdui-btn-block mdui-btn-raised mdui-ripple mdui-color-theme-accent" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="make-qrcode" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">签收二维码生成</h1>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe88f;</i>
+                        <label class="mdui-textfield-label">小张物流码</label>
+                        <input type="text" id="zec-qr" class="mdui-textfield-input"></input>
+                    </div>
+                    <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="makeQRCode()">生成</button>
+                </div>
+            </div>
+            <div id="qrcode" class="mdui-center">
+                <!--交给脚本-->
+            </div>
+        </div>
+        <div id="express-info" class="mdui-row mdui-p-a-2 mdui-typo mdui-container mdui-hidden">
+            <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                <p>小张物流码：<span id="info-zec"></span></p><!---->
+                <p>物流公司码：<span id="info-ecc"></span></p><!---->
+                <p>物流状态：<span id="info-state"></span></p><!---->
+                <p>状态标记人：<span id="info-markedBy"></span></p><!---->
+                <p>官方查询网站：<a id="info-website" href="javascript:;">暂无</a></p>
+                <p>物流描述：<span id="info-describe"></span></p><!---->
+                <p>发件人：<span id="info-sender"></span></p> <!---->
+                <p>始发地：<span id="info-sendLocation"></span></p><!---->
+                <p>发出时间：<span id="info-sendTime"></span></p><!---->
+                <p>收件人：<span id="info-receiver"></span></p><!---->
+                <p>终到地：<span id="info-targetLocation"></span></p><!---->
+                <p>送达时间：<span id="info-arriveTime">未送达</span></p><!---->
+            </div>
+        </div>
+        <div id="404" class="mdui-dialog">
+            <!--非常有意思的404报错-->
+            <div class="mdui-dialog-title">失败</div>
+            <div class="mdui-dialog-content">找不到对象</div>
+            <div class="mdui-dialog-actions">
+                <!--更有意思的按钮-->
+                <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#not-dogs'}" mdui-dialog-close>我才不是单身狗（恼</button>
+                <button class="mdui-btn mdui-ripple" mdui-dialog-close>关闭</button>
+            </div>
+        </div>
+        <div id="not-dogs" class="mdui-dialog">
+            <!--非常有意思的反驳-->
+            <div class="mdui-dialog-title">你说得对……</div>
+            <div class="mdui-dialog-content">
+                但是我指的是程序上的对象（Object）<br />
+                <del>俗称：404 Not Found</del><br />
+                才不是你的镧朋友/铝朋友
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn mdui-ripple" mdui-dialog-close>小丑竟是我自己</button>
+            </div>
+        </div>
+        <div id="you-must-survive" class="mdui-dialog">
+            <div class="mdui-dialog-title">生存还是死亡？</div>
+            <div class="mdui-dialog-content">
+                你身体里的每一个细胞都在拼命地打工 只为让你活下去 <del>癌细胞除外</del><br />
+                这个世界虽然有污点 但总体上是美好的<br />
+                不要认为你是孤独的 小张软件仍在陪着你<br />
+                如果你感觉苦闷 请拨打 010-82951332（北京24小时免费心理危机咨询热线）或 12355（全国青少年心理咨询热线） 或 12338（全国妇女儿童心理咨询热线）<br />
+                如果你感觉不舒服或者有癌细胞 请拨打 12320（全国卫生健康热线）并及时就医<br />
+                无力支付医疗费？可以了解一下我国的社会保障制度哦
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#you-must-survive'}" mdui-dialog-close>死亡</button>
+                <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#survive'}" mdui-dialog-close>生存</button>
+            </div>
+        </div>
+        <div id="survive" class="mdui-dialog">
+            <div class="mdui-dialog-title">很好</div>
+            <div class="mdui-dialog-content">
+                很高兴看到你选择生存
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn mdui-ripple" mdui-dialog-close>我也高兴</button>
+            </div>
+        </div>
+        <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+        <script src="/qrcodejs/qrcode.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
