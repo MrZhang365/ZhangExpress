@@ -4,7 +4,6 @@
 随着时光的流逝，本人和[@纸片君ee](https://github.com/paperee)、[@zzChumo](https://github.com/zzChumo)、[@MuRongPIG](https://github.com/MuRongPIG)的信任逐渐加深，遂开始相互写信，组成了“通邮圈”。为方便管理平邮信和挂号信，特意开发本项目。  
 ## 简介  
 这是一个简洁到简陋的物流管理系统，前端基于[MDUI](https://www.mdui.org/)，后端采用[express](https://expressjs.com/)框架。  
-因时间限制，用户管理功能仍在编写中，敬请谅解。  
 ## 快速上手  
 ### 先决条件  
 1. 常规的Node.js开发环境  
