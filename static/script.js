@@ -179,6 +179,9 @@ async function myExpresses() {
 
         table.appendChild(tr)
     }
+
+    $$('name').value = ''
+    $$('password').value = ''
 }
 
 function wantToDie(text) {
@@ -288,13 +291,96 @@ function makeQRCode() {
     const zec = $$('zec-qr').value
     if (!zec) return mdui.alert('你生成了个寂寞', '失败', undefined, { confirmText: '确定', history: false })
     
-    var qrcode = new QRCode($$('qrcode'), {
-        text: `${location.protocol}//${location.host}/?zec=${zec}`,
-        width: 128,
-        height: 128,
-        colorDark: '#44FF00',
-        colorLight: '#000000'
-    })
+    if (window.qrcodeBlack) {
+        window.qrcodeBlack.clear()
+        window.qrcodeBlack.makeCode(`${location.protocol}//${location.host}/?zec=${zec}`)
+    } else {
+        window.qrcodeBlack = new QRCode($$('qrcode-black'), {
+            text: `${location.protocol}//${location.host}/?zec=${zec}`,
+            width: 128,
+            height: 128,
+            colorDark: '#000000',
+            colorLight: '#FFFFFF'
+        })
+    }
+    if (window.qrcodeGreen) {
+        window.qrcodeGreen.clear()
+        window.qrcodeGreen.makeCode(`${location.protocol}//${location.host}/?zec=${zec}&color=44ff00`)
+    } else {
+        window.qrcodeGreen = new QRCode($$('qrcode-44ff00'), {
+            text: `${location.protocol}//${location.host}/?zec=${zec}&color=44ff00`,
+            width: 128,
+            height: 128,
+            colorDark: '#44FF00',
+            colorLight: '#000000'
+        })
+    }
+}
+
+async function userAdd() {
+    const name = $$('user-name').value.trim()
+    const password = $$('user-password').value.trim()
+    const safeCode = $$('safe-code').value.trim()
+
+    if (!name || !password || !safeCode) return mdui.alert('有些数据没有填写', '失败', undefined, { confirmText: '确定', history: false })
+
+    let result
+    try {
+        result = await (await fetch('/api/user-add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name, password, safeCode,
+            })
+        })).json()
+    } catch(ee) {
+        return mdui.alert('API异常 请联系开发人员解决', '服务异常', undefined, { confirmText: '确定', history: false })
+    }
+
+    if (!result.success) {
+        if (result.code === 401) return mdui.alert('系统安全验证码错误', '失败', undefined, { confirmText: '确定', history: false })
+        else if (result.code === 403) return mdui.alert('该用户已经存在', '失败', undefined, { confirmText: '确定', history: false })
+        else return mdui.alert(result.reason, '失败', undefined, { confirmText: '确定', history: false })
+    }
+
+    $$('user-name').value = ''
+    $$('user-password').value = ''
+    $$('safe-code').value = ''
+    mdui.alert('用户添加成功', '成功', undefined, { confirmText: '确定', history: false })
+}
+
+async function userDel() {
+    const name = $$('user-name-del').value.trim()
+    const safeCode = $$('safe-code-del').value.trim()
+
+    if (!name || !safeCode) return mdui.alert('有些数据没有填写', '失败', undefined, { confirmText: '确定', history: false })
+    
+    let result
+    try {
+        result = await (await fetch('/api/user-del', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name, safeCode,
+            })
+        })).json()
+    } catch(ee) {
+        return mdui.alert('API异常 请联系开发人员解决', '服务异常', undefined, { confirmText: '确定', history: false })
+    }
+
+    if (!result.success) {
+        if (result.code === 401) return mdui.alert('系统安全验证码错误', '失败', undefined, { confirmText: '确定', history: false })
+        else if (result.code === 404) return (new mdui.Dialog('#404', { history: false })).open()
+        else return mdui.alert(result.reason, '失败', undefined, { confirmText: '确定', history: false })
+    }
+
+    $$('user-name-del').value = ''
+    $$('safe-code-del').value = ''
+    mdui.alert('用户删除成功', '成功', undefined, { confirmText: '确定', history: false })
 }
 
 function parseSearchString() {
@@ -318,3 +404,5 @@ if (searchData.zec) {
     $$('zec-recv').value = searchData.zec
     mdui.mutation()
 }
+
+if (searchData.color === '44ff00') mdui.alert('扫绿色二维码 得绿色好心情', '44FF00', undefined, { confirmText: '好耶', history: false })

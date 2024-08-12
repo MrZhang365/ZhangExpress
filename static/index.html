@@ -26,8 +26,8 @@
                 </ul>
                 <a href="javascript:;" class="mdui-typo-title">小张物流管理系统</a>
                 <div class="mdui-toolbar-spacer"></div>
-                <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '后台管理', delay: 200}">
-                    <i class="mdui-icon material-icons">&#xe869;</i>
+                <a href="https://github.com/MrZhang365/ZhangExpress" target="_blank" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '项目地址', delay: 200}">
+                    <i class="mdui-icon material-icons">&#xe88f;</i>
                 </a>
             </div>
         </div>
@@ -55,6 +55,14 @@
             <a href="#make-qrcode" class="mdui-ripple">
                 <i class="mdui-icon material-icons">&#xe3f4;</i>
                 <label>二维码生成</label>
+            </a>
+            <a href="#user-add" class="mdui-ripple">
+                <i class="mdui-icon material-icons">&#xe7fe;</i>
+                <label>添加用户</label>
+            </a>
+            <a href="#user-del" class="mdui-ripple">
+                <i class="mdui-icon material-icons">&#xe15d;</i>
+                <label>删除用户</label>
             </a>
         </div>
         <div id="search-by-zec" class="mdui-p-a-2 mdui-typo mdui-container">
@@ -202,8 +210,54 @@
                     <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="makeQRCode()">生成</button>
                 </div>
             </div>
-            <div id="qrcode" class="mdui-center">
-                <!--交给脚本-->
+            <div class="mdui-row">
+                <div id="qrcodes" style="height: 128; width: 256;" class="mdui-center">
+                    <div id="qrcode-black" class="mdui-float-left" style="height: 128; width: 128; display: inline-block;"></div>
+                    <div id="qrcode-44ff00" class="mdui-float-left" style="height: 128; width: 128; display: inline-block;"></div>
+                </div>
+            </div>
+        </div>
+        <div id="user-add" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">添加用户</h1>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe853;</i>
+                        <label class="mdui-textfield-label">姓名</label>
+                        <input type="text" id="user-name" class="mdui-textfield-input"></input>
+                    </div>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe899;</i>
+                        <label class="mdui-textfield-label">密码</label>
+                        <input type="password" id="user-password" class="mdui-textfield-input"></input>
+                    </div>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe8e8;</i>
+                        <label class="mdui-textfield-label">系统安全验证码</label>
+                        <input type="text" id="safe-code" class="mdui-textfield-input"></input>
+                        <div class="mdui-textfield-helper">请查看服务器输出内容 每30秒刷新一次</div>
+                    </div>
+                    <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="userAdd()">添加</button>
+                </div>
+            </div>
+        </div>
+        <div id="user-del" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">删除用户</h1>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe853;</i>
+                        <label class="mdui-textfield-label">姓名</label>
+                        <input type="text" id="user-name-del" class="mdui-textfield-input"></input>
+                    </div>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe8e8;</i>
+                        <label class="mdui-textfield-label">系统安全验证码</label>
+                        <input type="text" id="safe-code-del" class="mdui-textfield-input"></input>
+                        <div class="mdui-textfield-helper">请查看服务器输出内容 每30秒刷新一次</div>
+                    </div>
+                    <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="userDel()">添加</button>
+                </div>
             </div>
         </div>
         <div id="express-info" class="mdui-row mdui-p-a-2 mdui-typo mdui-container mdui-hidden">

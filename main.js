@@ -161,5 +161,79 @@ app.post('/api/send-express', async (req, res) => {
     })
 })
 
+app.post('/api/user-add', async (req, res) => {
+    let keys = [
+        'name', 'password', 'safeCode'
+    ]
+
+    for (let i of keys) {
+        if (!req.body[i] || typeof req.body[i] !== 'string') return res.json({
+            success: false,
+            reason: '非法数据',
+            code: 400,
+        })
+    }
+
+    if (req.body.safeCode !== getKey(verifySecret)) return res.json({
+        success: false,
+        code: 401,
+        reason: '系统安全验证码错误',
+    })
+
+    req.body.password = crypto.createHash('sha512').update(req.body.password).digest('hex')
+
+    const user = await db.selectOne('select * from users where name = ?', [req.body.name])
+    if (user) return res.json({
+        success: false,
+        code: 403,
+        reason: '该用户已经存在',
+    })
+
+    await db.run('insert into users (name, password) values (?, ?);', [
+        req.body.name.trim(), req.body.password,
+    ])
+
+    res.json({
+        success: true,
+        code: 200,
+    })
+})
+
+app.post('/api/user-del', async (req, res) => {
+    let keys = [
+        'name', 'safeCode'
+    ]
+
+    for (let i of keys) {
+        if (!req.body[i] || typeof req.body[i] !== 'string') return res.json({
+            success: false,
+            reason: '非法数据',
+            code: 400,
+        })
+    }
+
+    if (req.body.safeCode !== getKey(verifySecret)) return res.json({
+        success: false,
+        code: 401,
+        reason: '系统安全验证码错误',
+    })
+
+    const user = await db.selectOne('select * from users where name = ?', [req.body.name.trim()])
+    if (!user) return res.json({
+        success: false,
+        code: 404,
+        reason: '该用户不存在',
+    })
+
+    await db.run('delete from users where name = ?;', [
+        req.body.name.trim()
+    ])
+
+    res.json({
+        success: true,
+        code: 200,
+    })
+})
+
 autoShowVerifyKey()
 app.listen(port)
