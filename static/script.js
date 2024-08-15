@@ -199,12 +199,17 @@ function wantToDie(text) {
 function showResult(result) {
     for (let i in result) {
         if (i === 'success') continue
-        if (!result[i] && typeof result[i] !== 'number') continue
+        if (!result[i] && typeof result[i] === 'number') continue
         if (i === 'website') {
-            if (!result[i]) continue
-            $$('info-' + i).href = result[i]
-            $$('info-' + i).textContent = '点此访问'
-            $$('info-' + i).target = '_blank'
+            if (!result[i]) {
+                $$('info-' + i).href = 'javascript:;'
+                $$('info-' + i).textContent = '暂无'
+                $$('info-' + i).target = '_self'
+            } else {
+                $$('info-' + i).href = result[i]
+                $$('info-' + i).textContent = '点此访问'
+                $$('info-' + i).target = '_blank'
+            }
             continue
         } else if (['sendTime', 'arriveTime'].includes(i) && result[i] !== 0) {
             $$('info-' + i).textContent = (new Date(result[i])).toLocaleString()
