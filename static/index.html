@@ -52,6 +52,10 @@
                 <i class="mdui-icon material-icons">&#xe163;</i>
                 <label>发物流</label>
             </a>
+            <a href="#express-append" class="mdui-ripple">
+                <i class="mdui-icon material-icons">&#xe03b;</i>
+                <label>物流信息追加</label>
+            </a>
             <a href="#make-qrcode" class="mdui-ripple">
                 <i class="mdui-icon material-icons">&#xe3f4;</i>
                 <label>二维码生成</label>
@@ -195,6 +199,34 @@
                         </div>
                         <input type="submit" value="提交" class="mdui-btn mdui-btn-block mdui-btn-raised mdui-ripple mdui-color-theme-accent" />
                     </form>
+                </div>
+            </div>
+        </div>
+        <div id="express-append" class="mdui-p-a-2 mdui-typo mdui-container">
+            <div class="mdui-row">
+                <div class="mdui-col-sm-4 mdui-col-offset-sm-4 mdui-typo">
+                    <h1 class="mdui-text-color-theme">物流信息追加</h1>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe88f;</i>
+                        <label class="mdui-textfield-label">小张物流码</label>
+                        <input type="text" id="zec-append" class="mdui-textfield-input"></input>
+                    </div>
+                    <div class="mdui-textfield">
+                        <i class="mdui-icon material-icons">&#xe899;</i>
+                        <label class="mdui-textfield-label">发件人密码</label>
+                        <input type="password" id="password-append" class="mdui-textfield-input"></input>
+                    </div>
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <i class="mdui-icon material-icons">&#xe0af;</i>
+                        <label class="mdui-textfield-label">物流公司码</label>
+                        <input id="ecc-append" class="mdui-textfield-input" type="text" />
+                    </div>
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <i class="mdui-icon material-icons">&#xe157;</i>
+                        <label class="mdui-textfield-label">官方查询网站</label>
+                        <input id="website-append" class="mdui-textfield-input" type="url" />
+                    </div>
+                    <button id="append" class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" onclick="appendExpress()">追加</button>
                 </div>
             </div>
         </div>

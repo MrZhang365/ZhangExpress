@@ -81,7 +81,7 @@ async function myExpresses() {
     const name = $$('name').value.trim()
     const password = $$('password').value
 
-    if (!name) return mdui.alert('你查收了个寂寞...', '失败', undefined, { confirmText: '确定', history: false })
+    if (!name) return mdui.alert('你查了个寂寞...', '失败', undefined, { confirmText: '确定', history: false })
     if (wantToDie(name)) return (new mdui.Dialog('#you-must-survive', { history: false })).open()
 
     try {
@@ -284,6 +284,42 @@ async function sendExpress(ee) {
 
     mdui.alert(`小张物流码：${result.zec}\n${copySuccess ? '已为你自动复制到剪贴板上了' : '请妥善保管'} 请勿分享给除 ${payload.receiver} 之外的人`, '成功', undefined, { confirmText: '确定', history: false })
     ee.reset()
+    return false
+}
+
+async function appendExpress() {
+    const zec = $$('zec-append').value.trim()
+    const password = $$('password-append').value
+    const ecc = $$('ecc-append').value.trim()
+    const website = $$('website-append').value.trim()
+
+    if (!zec || !password || !ecc || !website) return mdui.alert('你加了个寂寞...', '失败', undefined, { confirmText: '确定', history: false })
+    let result
+    try {
+        result = await (await fetch('/api/append-express', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                zec, password, ecc, website,
+            }),
+        })).json()
+    } catch(err) {
+        return mdui.alert('API异常 请联系开发人员解决', '服务异常', undefined, { confirmText: '确定', history: false })
+    }
+
+    if (!result.success) {
+        if (result.code === 404) return (new mdui.Dialog('#404')).open()
+        else if (result.code === 401) return mdui.alert('密码错误', '失败', undefined, { confirmText: '确定', history: false })
+        else return mdui.alert(result.reason, '失败', undefined, { confirmText: '确定', history: false })
+    }
+
+    mdui.alert(`追加成功 小张物流码为：${zec}`, '成功', undefined, { confirmText: '确定', history: false })
+    $$('zec-append').value = ''
+    $$('password-append').value = ''
+    $$('ecc-append').value = ''
+    $$('website-append').value = ''
     return false
 }
 

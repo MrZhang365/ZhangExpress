@@ -235,5 +235,43 @@ app.post('/api/user-del', async (req, res) => {
     })
 })
 
+app.post('/api/append-express', async (req, res) => {
+    const zec = req.body.zec
+    const password = req.body.password ? crypto.createHash('sha512').update(req.body.password).digest('hex') : ''
+    const ecc = req.body.ecc
+    const website = req.body.website
+
+    if (!zec || !password || !ecc || !website || typeof zec !== 'string' || typeof password !== 'string' || typeof ecc !== 'string' || typeof website !== 'string') return res.json({
+        success: false,
+        code: 400,
+        reason: '非法数据',
+    })
+
+    const exp = await db.selectOne('select * from expresses where zec = ?', [zec])
+    if (!exp) return res.json({
+        success: false,
+        code: 404,
+        reason: '找不到对应的物流信息',
+    })
+
+    const user = await db.selectOne('select * from users where name = ?', [exp.sender])
+    if (!user) return res.json({
+        success: false,
+        code: 403,
+        reason: '发件人没有注册',
+    })
+
+    if (password !== user.password) return res.json({
+        success: false,
+        code: 401,
+        reason: '密码不匹配',
+    })
+
+    await db.run('update expresses set ecc = ?, website = ? where zec = ?', [ecc, website, zec])
+    res.json({
+        success: true,
+    })
+})
+
 autoShowVerifyKey()
 app.listen(port)
