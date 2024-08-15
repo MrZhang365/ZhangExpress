@@ -157,42 +157,42 @@
                     <h1 class="mdui-text-color-theme">发物流</h1>
                     <form onsubmit="sendExpress(this); return false;" action="/api/send-express" method="post" target="hidden-iframe" enctype="application/json">
                         <iframe class="mdui-hidden" id="hidden-iframe" name="hidden-iframe"></iframe>
-                        <div class="mdui-textfield mdui-textfield-floating-label">
+                        <div class="mdui-textfield">
                             <i class="mdui-icon material-icons">&#xe7ff;</i>
                             <label class="mdui-textfield-label">发件人</label>
                             <input name="sender" class="mdui-textfield-input" type="text" required />
                         </div>
-                        <div class="mdui-textfield mdui-textfield-floating-label">
+                        <div class="mdui-textfield">
                             <i class="mdui-icon material-icons">&#xe899;</i>
                             <label class="mdui-textfield-label">密码</label>
                             <input name="password" class="mdui-textfield-input" type="password" required />
                         </div>
-                        <div class="mdui-textfield mdui-textfield-floating-label">
+                        <div class="mdui-textfield">
                             <i class="mdui-icon material-icons">&#xe0af;</i>
                             <label class="mdui-textfield-label">物流公司码（非必填）</label>
                             <input name="ecc" class="mdui-textfield-input" type="text" />
                         </div>
-                        <div class="mdui-textfield mdui-textfield-floating-label">
+                        <div class="mdui-textfield">
                             <i class="mdui-icon material-icons">&#xe90f;</i>
                             <label class="mdui-textfield-label">物流描述</label>
                             <input name="describe" class="mdui-textfield-input" type="text" required />
                         </div>
-                        <div class="mdui-textfield mdui-textfield-floating-label">
+                        <div class="mdui-textfield">
                             <i class="mdui-icon material-icons">&#xe157;</i>
                             <label class="mdui-textfield-label">官方查询网站（非必填）</label>
                             <input name="website" class="mdui-textfield-input" type="url" />
                         </div>
-                        <div class="mdui-textfield mdui-textfield-floating-label">
+                        <div class="mdui-textfield">
                             <i class="mdui-icon material-icons">&#xe905;</i>
                             <label class="mdui-textfield-label">始发地</label>
                             <input name="sendLocation" class="mdui-textfield-input" type="text" required />
                         </div>
-                        <div class="mdui-textfield mdui-textfield-floating-label">
+                        <div class="mdui-textfield">
                             <i class="mdui-icon material-icons">&#xe8a3;</i>
                             <label class="mdui-textfield-label">收件人</label>
                             <input name="receiver" class="mdui-textfield-input" type="text" required />
                         </div>
-                        <div class="mdui-textfield mdui-textfield-floating-label">
+                        <div class="mdui-textfield">
                             <i class="mdui-icon material-icons">&#xe904;</i>
                             <label class="mdui-textfield-label">终到地</label>
                             <input name="targetLocation" class="mdui-textfield-input" type="text" required />
@@ -216,12 +216,12 @@
                         <label class="mdui-textfield-label">发件人密码</label>
                         <input type="password" id="password-append" class="mdui-textfield-input"></input>
                     </div>
-                    <div class="mdui-textfield mdui-textfield-floating-label">
+                    <div class="mdui-textfield">
                         <i class="mdui-icon material-icons">&#xe0af;</i>
                         <label class="mdui-textfield-label">物流公司码</label>
                         <input id="ecc-append" class="mdui-textfield-input" type="text" />
                     </div>
-                    <div class="mdui-textfield mdui-textfield-floating-label">
+                    <div class="mdui-textfield">
                         <i class="mdui-icon material-icons">&#xe157;</i>
                         <label class="mdui-textfield-label">官方查询网站</label>
                         <input id="website-append" class="mdui-textfield-input" type="url" />
