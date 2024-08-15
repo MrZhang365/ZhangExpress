@@ -14,7 +14,7 @@ const db = new Database.Sqlite('data.db')
 
 function getKey(secret) { return speakeasy.totp({ secret, encoding: 'base32', step: 30 }) }
 
-function sleep(ms) { return new Promise(res => setTimeout(res)) }
+function sleep(ms) { return new Promise(res => setTimeout(res, ms)) }
 
 async function autoShowVerifyKey() {
     const timeStep = 30;
