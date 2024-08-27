@@ -71,12 +71,13 @@ app.get('/api/query-by-ecc', async (req, res) => {
     })
 })
 
-app.get('/api/receive', async (req, res) => {
-    const zec = req.query.zec
-    if (!zec) return res.json({
+app.post('/api/receive', async (req, res) => {
+    const zec = req.body.zec
+
+    if (!zec || typeof zec !== 'string') return res.json({
         success: false,
         code: 400,
-        reason: '未提供小张物流码'
+        reason: '数据无效'
     })
 
     const record = await db.selectOne('select * from expresses where zec = ?', [zec])
@@ -92,6 +93,9 @@ app.get('/api/receive', async (req, res) => {
     })
 
     await db.run('update expresses set arriveTime = ?, state = 1, markedBy = 1 where zec = ?', [Date.now(), zec])
+    if (req.body.locationX !== null && req.body.locationY !== null && typeof req.body.locationX === 'number' && typeof req.body.locationY === 'number' && !isNaN(req.body.locationX) && !isNaN(req.body.locationY)) {
+        await db.run('update expresses set location = ? where zec = ?', [`${req.body.locationX}, ${req.body.locationY}`, zec])
+    }
     res.json({
         success: true,
     })

@@ -55,13 +55,42 @@ async function queryByEcc() {
     mdui.mutation()
 }
 
+function getLocation() {
+    return new Promise((res, rej) => {
+        navigator.geolocation.getCurrentPosition(res, rej, {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+        })
+    })
+}
+
 async function receive() {
+    // return mdui.alert('该功能正在更新中，请等待更新完毕', '失败', undefined, { confirmText: '确定', history: false })
     let result
     const zec = $$('zec-recv').value.trim()
     if (!zec) return mdui.alert('你签收了个寂寞...', '失败', undefined, { confirmText: '确定', history: false })
     if (wantToDie(zec)) return (new mdui.Dialog('#you-must-survive', { history: false })).open()
+
     try {
-        result = await (await fetch('/api/receive?zec=' + zec)).json()
+        var rawLocation = await getLocation()
+    } catch(err) {
+        var rawLocation = {
+            coords: {}
+        }
+    }
+
+    try {
+        result = await (await fetch('/api/receive', {
+            method: 'POST',
+            body: JSON.stringify({
+                zec, location,
+                locationX: rawLocation.coords.latitude || null,
+                locationY: rawLocation.coords.longitude || null,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })).json()
     } catch(ee) {
         return mdui.alert('API异常 请联系开发人员解决', '服务异常', undefined, { confirmText: '确定', history: false })
     }
@@ -177,6 +206,9 @@ async function myExpresses() {
         let arriveTime = $('td')
         tr.appendChild($$$(arriveTime, i['arriveTime'] !== 0 ? (new Date(i['arriveTime']).toLocaleString()) : '未送达'))
 
+        let location = $('td')
+        tr.appendChild($$$(location, i['location'] || '未送达或无法获取'))
+
         table.appendChild(tr)
     }
 
@@ -199,7 +231,7 @@ function wantToDie(text) {
 function showResult(result) {
     for (let i in result) {
         if (i === 'success') continue
-        if (!result[i] && typeof result[i] === 'number') continue
+        if (!result[i] && (typeof result[i] === 'number' || result[i] === null)) continue
         if (i === 'website') {
             if (!result[i]) {
                 $$('info-' + i).href = 'javascript:;'
