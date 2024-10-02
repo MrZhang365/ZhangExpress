@@ -60,6 +60,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(res, rej, {
             enableHighAccuracy: true,
             maximumAge: 0,
+            timeout: 10000,    // 防止阻塞太长时间
         })
     })
 }
@@ -72,14 +73,17 @@ async function receive() {
     if (wantToDie(zec)) return (new mdui.Dialog('#you-must-survive', { history: false })).open()
 
     try {
+        console.info('正在获取位置')
         var rawLocation = await getLocation()
     } catch(err) {
         var rawLocation = {
             coords: {}
         }
     }
+    console.info('位置获取结束')
 
     try {
+        // console.info('debug 1')
         result = await (await fetch('/api/receive', {
             method: 'POST',
             body: JSON.stringify({
@@ -91,6 +95,7 @@ async function receive() {
                 'Content-Type': 'application/json',
             }
         })).json()
+        // console.info('debug 2')
     } catch(ee) {
         return mdui.alert('API异常 请联系开发人员解决', '服务异常', undefined, { confirmText: '确定', history: false })
     }
@@ -231,7 +236,7 @@ function wantToDie(text) {
 function showResult(result) {
     for (let i in result) {
         if (i === 'success') continue
-        if (!result[i] && (typeof result[i] === 'number' || result[i] === null)) continue
+        // if (!result[i] && (typeof result[i] === 'number' || result[i] === null)) continue
         if (i === 'website') {
             if (!result[i]) {
                 $$('info-' + i).href = 'javascript:;'
@@ -274,8 +279,13 @@ function showResult(result) {
                     txt = '无法识别 请联系开发人员解决'
             }
             $$('info-' + i).textContent = txt
+        } else if (i === 'location' && !result[i]) {
+            result[i] = '未送达或无法获取'
+            $$('info-' + i).textContent = result[i]
         } else if (result[i] === 0) {
             continue
+        } else if (result[i] === '') {
+            $$('info-' + i).textContent = '暂无'
         } else {
             $$('info-' + i).textContent = result[i]
         }
